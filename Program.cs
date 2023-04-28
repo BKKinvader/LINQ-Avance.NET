@@ -54,14 +54,13 @@ namespace LINQ_Avance.NET
 
 
                 int choice = 0;
-
                 while (choice != 6)
                 {
                     Console.WriteLine("Welcome to the School System:");
                     Console.WriteLine("-------------------------------");
                     Console.WriteLine("1. Find Math Teacher");
                     Console.WriteLine("2. Find Students and Their Teachers");
-                    Console.WriteLine("3. Checking If Subject SQL Is In Database");
+                    Console.WriteLine("3. Find existing subject in Database");
                     Console.WriteLine("4. Change Subject Name");
                     Console.WriteLine("5. Rename a Student's Teacher");
                     Console.WriteLine("6. Quit");
@@ -128,12 +127,13 @@ namespace LINQ_Avance.NET
 
                                 break;
                             case 3:
-                                Console.WriteLine("You chose to check if a subject is SQL.");
+                                Console.WriteLine("You chose search subject");
                                 //Checking if Subject SQL exist with LINQ
                                 Console.ReadKey();
                                 Console.Clear();
+                                Console.WriteLine("Please type the subject you want search for");
+                                string searchTerm = Console.ReadLine();
                                 Console.WriteLine("Loading data, please wait...");
-                                string searchTerm = "SQL";
                                 var subjects = context.Subjects.Where(s => s.Name.Contains(searchTerm)).ToList();
                                 Console.WriteLine("Data loaded successfully!");
                                 Console.Clear();
@@ -143,6 +143,10 @@ namespace LINQ_Avance.NET
                                 {
                                     Console.WriteLine("SQL exists.");
                                 }
+                                else 
+                                {
+                                    Console.WriteLine($"{searchTerm} do not exsist");
+                                 }
                                 Console.ReadKey();
                                 Console.Clear();
                                 break;
@@ -150,6 +154,7 @@ namespace LINQ_Avance.NET
                                 Console.WriteLine("You chose to change a subject name.");
                                 //-------------Change subject name--------------------------
                                 Console.ReadKey();
+                                Console.Clear();
                                 Console.WriteLine("Type in the subject you want to rename ");
                                 string oldName = Console.ReadLine();
                                 string newName = null;
@@ -178,9 +183,12 @@ namespace LINQ_Avance.NET
                             case 5:
                                 Console.Clear();
                                 Console.WriteLine("You chose to rename a student's teacher.");
+                                Console.ReadKey();
+                                Console.Clear();
                                 // get the student by name
                                 Console.WriteLine("Type in students name to find the teachers");
                                 string studentName = Console.ReadLine();
+                                Console.Clear();
                                 Console.WriteLine("Loading data, please wait...");
                                 var student = context.Students
                                     .Include(s => s.Courses).ThenInclude(c => c.Teachers)
@@ -226,15 +234,9 @@ namespace LINQ_Avance.NET
                                     Console.WriteLine("Student not found");
                                 }
 
-
-                                Console.Clear();
                                 Console.ReadKey();
-
-
-
-
-
-                                break;
+                                Console.Clear();
+                                 break;
                             case 6:
                                 Console.WriteLine("Goodbye!");
                                 break;
